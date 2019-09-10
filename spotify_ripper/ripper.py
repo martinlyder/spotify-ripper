@@ -12,6 +12,7 @@ from spotify_ripper.web import WebAPI
 from spotify_ripper.sync import Sync
 from spotify_ripper.eventloop import EventLoop
 from datetime import datetime
+from spotify_ripper.spotipy_integration import get_playlist_tracks, init_spotipy
 import os
 import sys
 import time
@@ -188,6 +189,8 @@ class Ripper(threading.Thread):
 
         # list of spotify URIs
         uris = args.uri
+
+        init_spotipy(self.session.user.canonical_name)
 
         def get_tracks_from_uri(uri):
             self.current_playlist = None
@@ -409,30 +412,27 @@ class Ripper(threading.Thread):
         if not uri:
             return iter([])
 
+        trackList = []
+        uriList = []
+        track_list = []
+
         link = self.session.get_link(uri)
         if link.type == spotify.LinkType.TRACK:
             track = link.as_track()
             return iter([track])
         elif link.type == spotify.LinkType.PLAYLIST:
-            self.current_playlist = link.as_playlist()
-            attempt_count = 1
-            while self.current_playlist is None:
-                if attempt_count > 3:
-                    print(Fore.RED + "Could not load playlist..." +
-                          Fore.RESET)
-                    return iter([])
-                print("Attempt " + str(attempt_count) + " failed: Spotify " +
-                      "returned None for playlist, trying again in 5 " +
-                      "seconds...")
-                time.sleep(5.0)
-                self.current_playlist = link.as_playlist()
-                attempt_count += 1
+            self.playlist_uri = uri
+            tracks = get_playlist_tracks(self.session.user.canonical_name, uri)
+            track_list = tracks.get('items')
+            for n in track_list:
+                thisTrack = n.get('track')
+                thisTrackuri = thisTrack.get('uri')
+                uriList.append(thisTrackuri)
+            tracksIter = iter(uriList)
+            for i in tracksIter:
+                trackList.append(self.session.get_link(i).as_track())
+            return iter(trackList)
 
-            print('Loading playlist... (check!)')
-            self.current_playlist.load()
-            print('(check!) playlist loaded')
-            return iter(self.current_playlist.tracks)
-            print(self.current_playlist.tracks)
         elif link.type == spotify.LinkType.STARRED:
             link_user = link.as_user()
 
@@ -806,3 +806,4 @@ class Ripper(threading.Thread):
     def abort_rip(self):
         self.ripping.clear()
         self.abort.set()
+
