@@ -357,9 +357,9 @@ To install pyenv using homebrew:
     $ eval "$(pyenv init -)"
     ## the next line ensures 'eval "$(pyenv init -)"' is run everytime terminal is opened
     $ echo 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi' >> ~/.bash_profile
-    $ pyenv install 2.7.10  # or whatever version of python you want
-    $ pyenv global 2.7.10
-    $ python -V             # should say Python 2.7.10
+    $ pyenv install 2.7.13  # or whatever version of python you want
+    $ pyenv global 2.7.13
+    $ python -V             # should say Python 2.7.13
 
 To install spotify-ripper once pyenv is setup:
 
@@ -369,7 +369,7 @@ To install spotify-ripper once pyenv is setup:
     $ sudo ln -s /usr/local/opt/libspotify/lib/libspotify.12.1.51.dylib \
         /usr/local/opt/libspotify/lib/libspotify
     $ brew install lame
-    $ git clone https://github.com/hbashton/spotify-ripper.git && cd spotify-ripper && sudo python setup.py install
+    $ git clone https://github.com/lavolp3/spotify-ripper.git && cd spotify-ripper && sudo python setup.py install
     $ pyenv rehash
 
 **Note that Spotify may no longer be issuing developer keys.** See `Libspotify’s Deprecation`_
@@ -407,7 +407,7 @@ To install spotify-ripper once pyenv is setup:
     $ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add - #add mopidy's libspotify repository
     $ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/stretch.list   #valid for Debian Stretch.
     $ sudo apt-get update && sudo apt-get install libspotify12 libspotify-dev python-spotify #install libspotify from mopidy's repository
-    $ git clone https://github.com/hbashton/spotify-ripper.git && cd spotify-ripper && sudo python setup.py install
+    $ git clone https://github.com/lavolp3/spotify-ripper.git && cd spotify-ripper && sudo python setup.py install
     $ pyenv rehash
 
 **Note that Spotify may no longer be issuing developer keys.** See `Libspotify’s Deprecation`_
