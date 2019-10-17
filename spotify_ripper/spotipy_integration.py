@@ -6,13 +6,13 @@ import spotipy.oauth2 as oauth2
 import os
 
 #check instructions from https://github.com/stephanlensky/spotify-ripper
-redirect_uri = 'http://www.purple.com'
+redirect_uri = 'http://localhost/'
 client_id = '' # You need to place your client_id here before install
 client_secret = '' # You need to place your client_secret here before install
 scope = 'playlist-modify-public playlist-modify-private playlist-read-collaborative'
 
-# client_id = os.environ["SPOTIPY_CLIENT_ID"] 
-# client_secret = os.environ["SPOTIPY_CLIENT_SECRET"]
+client_id = os.environ["SPOTIPY_CLIENT_ID"]
+client_secret = os.environ["SPOTIPY_CLIENT_SECRET"]
 # redirect_uri = os.environ["SPOTIPY_REDIRECT_URI"]
 
 token = None

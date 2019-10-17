@@ -10,6 +10,31 @@ URIs to audio files and includes ID3 tags and cover art.  By default spotify-rip
 
 **Note that stream ripping violates the libspotify's ToS**
 
+Spotipy Intergration
+--------------------
+(needed for downloading albums/playlists)
+
+create a client id at https://developer.spotify.com/dashboard/applications
+redirect_uri needs to `http://localhost`
+remeber/copy paste the Client ID/Secret
+and export them in to your shell
+.. code::
+
+  export SPOTIPY_CLIENT_ID='123456789'
+  export SPOTIPY_CLIENT_SECRET='abcde123456789'
+
+
+when running spotify-ripper when downloading an album or playlist. the following will happen
+a browser will be opened.
+for the first time you will be asked to login and approve
+
+a blank webpage will now be shown with an url something like
+``http://localhost/?code=AQA3ZzBDw2s4SiMDdu0qkE``
+copy this url and paste it to your terminal and hit enter
+
+reference: https://spotipy.readthedocs.io/en/latest/#authorized-requests
+
+
 Libspotify’s Deprecation
 ------------------------
 **From Mopidy's documentation**
@@ -403,7 +428,7 @@ To install spotify-ripper once pyenv is setup:
 
 .. code:: bash
 
-    $ sudo apt-get install lame build-essential libffi-dev 
+    $ sudo apt-get install lame build-essential libffi-dev
     $ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add - #add mopidy's libspotify repository
     $ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/stretch.list   #valid for Debian Stretch.
     $ sudo apt-get update && sudo apt-get install libspotify12 libspotify-dev python-spotify #install libspotify from mopidy's repository
