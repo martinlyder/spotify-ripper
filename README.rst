@@ -301,7 +301,7 @@ Format variables that represent an index can be padded with zeros to a user-spec
 Prefix String
 ~~~~~~~~~~~~~
 
-Format variable ``feat_artists`` takes a prefix string to be prepended before the output.  For example, ``{feat_artists:featuring} will produce the follow output ``featuing Bruno Mars``.  If there are no featuring artists, the prefix string (and any preceding spaces) will not be included.
+Format variable ``feat_artists`` takes a prefix string to be prepended before the output.  For example, ``{feat_artists:featuring}`` will produce the follow output ``featuring Bruno Mars``.  If there are no featuring artists, the prefix string (and any preceding spaces) will not be included.
 
 Playlist Sync Option
 ~~~~~~~~~~~~~~~~~~~~
