@@ -3,36 +3,12 @@ spotify-ripper |Version|
 
 A fork of
 `spotify-ripper <https://github.com/robbeofficial/spotifyripper>`__ that
-uses `pyspotify <https://github.com/mopidy/pyspotify>`__ v2.x
+uses `pyspotify <https://github.com/mopidy/pyspotify>`__ v2.x and `spotipy <https://github.com/plamere/spotipy>`__ 
 
 Spotify-ripper is a small ripper script for Spotify that rips Spotify
 URIs to audio files and includes ID3 tags and cover art.  By default spotify-ripper will encode to MP3 files, but includes the ability to rip to WAV, FLAC, Ogg Vorbis, Opus, AAC, and MP4/M4A.
 
 **Note that stream ripping violates the libspotify's ToS**
-
-Spotipy Intergration
---------------------
-(needed for downloading albums/playlists)
-
-create a client id at https://developer.spotify.com/dashboard/applications
-redirect_uri needs to `http://localhost`
-remeber/copy paste the Client ID/Secret
-and export them in to your shell
-.. code::
-
-  export SPOTIPY_CLIENT_ID='123456789'
-  export SPOTIPY_CLIENT_SECRET='abcde123456789'
-
-
-when running spotify-ripper when downloading an album or playlist. the following will happen
-a browser will be opened.
-for the first time you will be asked to login and approve
-
-a blank webpage will now be shown with an url something like
-``http://localhost/?code=AQA3ZzBDw2s4SiMDdu0qkE``
-copy this url and paste it to your terminal and hit enter
-
-reference: https://spotipy.readthedocs.io/en/latest/#authorized-requests
 
 
 Libspotify’s Deprecation
@@ -94,6 +70,30 @@ Features
 -  option to normalize output filenames to NFKD (see http://unicode.org/faq/normalization.html)
 
 **Please note: Spotify’s highest quality setting is 320 kbps, so the benefit of ripping to a lossless format is to not double encode the audio data. It’s not possible to rip in true lossless quality.**
+
+
+Spotipy Intergration
+--------------------
+Downloading playlists does not work anymore through libspotify due to changes in the Spotify API. As a workaround, spotipy, a small python library using the Spotify Web API, is being used for playlists (and currently for playlists only!)
+Using Spotify as described below is not mandatory for spotify-ripper. It is only needed for downloading playlists.
+
+Create a Client ID at https://developer.spotify.com/dashboard/applications
+The Redirect_uri needs to `http://localhost` (can be changed in "Edit settings")
+Copy/Paste the Client ID and Client Secret and export them in to your shell
+.. code::
+
+  export SPOTIPY_CLIENT_ID='123456789'
+  export SPOTIPY_CLIENT_SECRET='abcde123456789'
+
+
+Then, run spotify-ripper (as described below). When downloading an album or playlist, a browser window will be opened. 
+You will be asked to login and approve your app.
+
+A blank webpage will now be shown with an url something like
+``http://localhost/?code=AQA3ZzBDw2s4SiMDdu0qkE``
+copy this URL, paste it to your terminal and hit Enter
+
+Reference: https://spotipy.readthedocs.io/en/latest/#authorized-requests
 
 
 Usage
