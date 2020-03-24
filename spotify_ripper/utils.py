@@ -104,7 +104,9 @@ def rm_file(file_name):
 
 
 def default_settings_dir():
-    return norm_path(os.path.join(os.path.expanduser("~"), ".spotify-ripper"))
+    sudo_username = os.getenv("SUDO_USER")
+    home_dir = "/home/" + sudo_username
+    return norm_path(os.path.join(home_dir, ".spotify-ripper"))
 
 
 def settings_dir():
