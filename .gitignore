@@ -62,3 +62,4 @@ spotify_appkey.key
 *.m3u
 tmp/*
 *~
+.cache-*
