@@ -514,6 +514,13 @@ Use ``git pull`` to upgrade to the latest version.
     $ cd spotify-ripper
     $ git pull
 
+	You need to install the scripts again after each upgrade.
+	
+.. code:: bash
+
+    $ cd spotify-ripper
+    $ sudo python setup.py install 
+	
 
 Common Issues and Problems
 --------------------------
