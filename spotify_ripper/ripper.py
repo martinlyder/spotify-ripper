@@ -8,11 +8,11 @@ from spotify_ripper.utils import *
 from spotify_ripper.tags import set_metadata_tags
 from spotify_ripper.progress import Progress
 from spotify_ripper.post_actions import PostActions
-from spotify_ripper.web import WebAPI
+from spotify_ripper.web import *
 from spotify_ripper.sync import Sync
 from spotify_ripper.eventloop import EventLoop
 from datetime import datetime
-from spotify_ripper.spotipy_integration import get_playlist_tracks, init_spotipy
+#from spotify_ripper.spotipy_integration import get_playlist_tracks, init_spotipy
 import os
 import sys
 import time
@@ -203,7 +203,7 @@ class Ripper(threading.Thread):
                 if (uri.startswith("spotify:artist:") and
                         (args.artist_album_type is not None or
                          args.artist_album_market is not None)):
-                    album_uris = self.web.get_albums_with_filter(uri)
+                    album_uris = get_albums_with_filter(args, uri)
                     return itertools.chain(
                         *[self.load_link(album_uri) for
                           album_uri in album_uris])
@@ -275,7 +275,7 @@ class Ripper(threading.Thread):
                     self.audio_file = self.format_track_path(idx, track)
 
                     if not args.overwrite and path_exists(self.audio_file):
-                        if is_partial(self.audio_file, track):
+						if is_partial(self.audio_file, track):
                             print("Overwriting partial file")
                         else:
                             print(

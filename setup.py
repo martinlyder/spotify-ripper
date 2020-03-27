@@ -6,8 +6,10 @@ import os
 
 
 def create_default_dir():
+    sudo_username = os.getenv("SUDO_USER")
+    home_dir = "/home/" + sudo_username
     default_dir = os.path.normpath(os.path.realpath(
-        (os.path.join(os.path.expanduser("~"), ".spotify-ripper"))))
+        (os.path.join(home_dir, ".spotify-ripper"))))
     if not os.path.exists(default_dir):
         print("Creating default settings directory: " +
             default_dir)
