@@ -148,7 +148,8 @@ def get_albums_with_filter(args, uri):
 		return cached_result
 
 
-    """
+def get_cover_image(track):
+	return spotInstance.cover()
 	
 class WebAPI(object):
 
