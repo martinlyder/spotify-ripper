@@ -1,4 +1,4 @@
-spotify-ripper |Version|
+spotify-ripper
 ========================
 
 A fork of
