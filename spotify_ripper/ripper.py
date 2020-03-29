@@ -23,6 +23,7 @@ import itertools
 import wave
 import re
 import select
+import traceback
 
 try:
     # Python 3
@@ -275,7 +276,7 @@ class Ripper(threading.Thread):
                     self.audio_file = self.format_track_path(idx, track)
 
                     if not args.overwrite and path_exists(self.audio_file):
-						if is_partial(self.audio_file, track):
+                        if is_partial(self.audio_file, track):
                             print("Overwriting partial file")
                         else:
                             print(
@@ -344,6 +345,7 @@ class Ripper(threading.Thread):
                     if isinstance(e, Exception):
                         print(Fore.RED + "Spotify error detected" + Fore.RESET)
                     print(str(e))
+                    print(traceback.format_exc())
                     print("Skipping to next track...")
                     self.session.player.play(False)
                     self.post.clean_up_partial()

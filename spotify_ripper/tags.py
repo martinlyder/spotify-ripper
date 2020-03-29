@@ -82,8 +82,13 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                 else:
                     return None
             
-        image_link = str(track.album.cover(2).link)
-        image = get_cover_image(image_link)
+        if track.album.cover(2) is not None:
+            print("Cover found!")
+            image_link = str(track.album.cover(2).link)
+            image = get_cover_image(image_link)
+        else:
+            print("Cover not found!")
+            image = None
 
         def tag_to_ascii(_str, _str_ascii):
             return _str if args.ascii_path_only else _str_ascii
