@@ -5,8 +5,7 @@ A fork of
 `spotify-ripper <https://github.com/robbeofficial/spotifyripper>`__ that
 uses `pyspotify <https://github.com/mopidy/pyspotify>`__ v2.x and `spotipy <https://github.com/plamere/spotipy>`__ 
 
-Spotify-ripper is a small ripper script for Spotify that rips Spotify
-URIs to audio files and includes ID3 tags and cover art.  By default spotify-ripper will encode to MP3 files, but includes the ability to rip to WAV, FLAC, Ogg Vorbis, Opus, AAC, and MP4/M4A.
+Spotify-ripper is a small ripper script for Spotify that rips Spotify URIs to audio files and includes ID3 tags and cover art.  By default spotify-ripper will encode to MP3 files, but includes the ability to rip to WAV, FLAC, Ogg Vorbis, Opus, AAC, and MP4/M4A.
 
 **Note that stream ripping violates the libspotify's ToS**
 
@@ -72,26 +71,22 @@ Features
 **Please note: Spotify’s highest quality setting is 320 kbps, so the benefit of ripping to a lossless format is to not double encode the audio data. It’s not possible to rip in true lossless quality.**
 
 
-Spotipy Intergration
+Spotipy Integration
 --------------------
-Downloading playlists does not work anymore through libspotify due to changes in the Spotify API. As a workaround, spotipy, a small python library using the Spotify Web API, is being used for playlists (and currently for playlists only!)
-Using Spotify as described below is not mandatory for spotify-ripper. It is only needed for downloading playlists.
+To download playlists and to filterartist albums (see options `--artist-album-type` and `--artist-album-market`, spotipy, a small python library using the Spotify Web API, is being used.
+Using spotipy and the Web API is not mandatory for the usage of spotify-ripper! However for proper function of the module it is advised to follow below workflow to have full functionality. 
 
+1)
 Create a Client ID at https://developer.spotify.com/dashboard/applications
-The Redirect_uri needs to `http://localhost` (can be changed in "Edit settings")
-Copy/Paste the Client ID and Client Secret and export them in to your shell
-.. code::
-
-  export SPOTIPY_CLIENT_ID='123456789'
-  export SPOTIPY_CLIENT_SECRET='abcde123456789'
-
+The Redirect URI can be any site that you can access. E.g. it can be `http://localhost`. It is only important thatit is accessible from the device you are doing the authorisation from.
+Copy/Paste the Client ID and Client Secret and include them into web.py
 
 Then, run spotify-ripper (as described below). When downloading an album or playlist, a browser window will be opened. 
 You will be asked to login and approve your app.
 
-A blank webpage will now be shown with an url something like
+A blank webpage will now be shown with an url something like this: 
 ``http://localhost/?code=AQA3ZzBDw2s4SiMDdu0qkE``
-copy this URL, paste it to your terminal and hit Enter
+Copy this URL, paste it to your terminal and hit Enter
 
 Reference: https://spotipy.readthedocs.io/en/latest/#authorized-requests
 
@@ -140,7 +135,7 @@ Command Line
       --aac                 Rip songs to AAC format with FreeAAC instead of MP3
       --alac                Rip songs to Apple Lossless format instead of MP3
       --artist-album-type ARTIST_ALBUM_TYPE
-                            Only load albums of specified types when passing a Spotify artist URI [Default=album,single,ep,compilation,appears_on]
+                            Only load albums of specified types when passing a Spotify artist URI [Default=album,single,compilation,appears_on]
       --artist-album-market ARTIST_ALBUM_MARKET
                             Only load albums with the specified ISO2 country code when passing a Spotify artist URI. You may get duplicate albums if not set. [Default=any]
       -A, --ascii-path-only
@@ -223,7 +218,7 @@ Spotify-ripper will work with your regular Facebook login/password if you setup 
 Config File
 ~~~~~~~~~~~
 
-For options that you want set on every run, you can use a config file named ``config.ini`` in the settings folder (defaults to ``~/.spotify-ripper``).  The options in the config file use the same name as the command line options with the exception that dashes are translated to ``snake_case``.  Any option specified in the command line will overwrite any setting in the config file.  Please put all options under a ``[main]`` section.
+For options that you want set on every run, you can use a config file named ``config.ini`` in the settings folder (defaults to ``home/user/.spotify-ripper``).  The options in the config file use the same name as the command line options with the exception that dashes are translated to ``snake_case``.  Any option specified in the command line will overwrite any setting in the config file.  Please put all options under a ``[main]`` section.
 
 Here is an example config file
 
@@ -356,6 +351,8 @@ Prerequisites
 -  `mutagen <https://mutagen.readthedocs.org/en/latest/>`__
 
 -  `colorama <https://pypi.python.org/pypi/colorama>`__
+
+-  `spotipy <https://pypi.org/project/spotipy>`__
 
 -  (optional) `flac <https://xiph.org/flac/index.html>`__
 
@@ -514,7 +511,8 @@ Use ``git pull`` to upgrade to the latest version.
     $ cd spotify-ripper
     $ git pull
 
-	You need to install the scripts again after each upgrade.
+
+You need to install the scripts again after each upgrade.
 	
 .. code:: bash
 
@@ -539,5 +537,4 @@ License
 
 `MIT License <http://en.wikipedia.org/wiki/MIT_License>`__
 
-.. |Version| image:: http://img.shields.io/pypi/v/spotify-ripper.svg?style=flat-square
-  :target: https://pypi.python.org/pypi/spotify-ripper
+
