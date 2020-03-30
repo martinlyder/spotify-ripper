@@ -526,6 +526,8 @@ TODOs
 - [ ] Save files under Album artist instead of Track artist
 - [ ] Check if an Album has more than one CD and save files in seperate folders accordingly
 - [ ] Clean up summary: Summarise success and failure output per album/playlist, structurise more
+- [ ] Change to Wep API for filtered albums call
+- [ ] Scrap spotipy and use WEP API exclusively.
 
 
 License
