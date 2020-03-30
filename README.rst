@@ -520,16 +520,12 @@ You need to install the scripts again after each upgrade.
     $ sudo python setup.py install 
 	
 
-Common Issues and Problems
---------------------------
+TODOs
+-------
 
-Help for common problems while using spotify-ripper can be found in the `wiki <https://github.com/hbashton/spotify-ripper/wiki/Help>`__.
-
-
-Release Notes
--------------
-
-Release notes can be found in the `wiki <https://github.com/hbashton/spotify-ripper/wiki/Release-Notes>`__.
+- [ ] Save files under Album artist instead of Track artist
+- [ ] Check if an Album has more than one CD and save files in seperate folders accordingly
+- [ ] Clean up summary: Summarise success and failure output per album/playlist, structurise more
 
 
 License
