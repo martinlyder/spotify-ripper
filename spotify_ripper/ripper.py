@@ -248,6 +248,7 @@ class Ripper(threading.Thread):
             if self.abort.is_set():
                 break
 
+            # Commented this out, Function aready available in line 227
             #tracks = list(get_tracks_from_uri(uri))
 
             if args.playlist_sync and self.current_playlist:

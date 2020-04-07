@@ -85,8 +85,8 @@ class PostActions(object):
                   ")\n" + ("-" * 79) + Fore.RESET)
             log_tracks(self.failure_tracks)
 
-            print(Fore.GREEN + "\n" + str(len(self.success_tracks)) + " Tracks successfully ripped.")
-            print(Fore.RED + "\n" + str(len(self.failure_tracks)) + " Tracks failed.")
+        print(Fore.GREEN + "\n" + str(len(self.success_tracks)) + " Tracks successfully ripped.")
+        print(Fore.RED + str(len(self.failure_tracks)) + " Tracks failed.")
 
     def get_chart_name(self, chart):
         region_mapping = {

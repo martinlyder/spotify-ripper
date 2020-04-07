@@ -96,7 +96,7 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
         
         # cover art image
         def get_cover_image(image_link):
-            image_link = 'http://open.spotify.com%s' % (
+            image_link = 'https://i.scdn.co%s' % (
                 image_link[len('spotify'):].replace(':', '/'))
             cover_file = urllib.urlretrieve(image_link)[0]
             
@@ -105,10 +105,13 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                     return f.read()
                 else:
                     return None
-            
-        image_link = str(track.album.cover(2).link)
-        #print(str(image_link))
-        image = get_cover_image(image_link)
+        if track.album.cover(2) is not None:    
+            image_link = str(track.album.cover(2).link)
+            #print(str(image_link))
+            image = get_cover_image(image_link)
+        else:
+            print(Fore.RED + "Cover file not found" + Fore.RESET)
+            image = None
         
         def tag_to_ascii(_str, _str_ascii):
             return _str if args.ascii_path_only else _str_ascii
