@@ -136,14 +136,13 @@ def get_albums_with_filter(args, uri):
         except KeyError as e:
             break
     print(str(len(album_uris)) + " albums found")
-    print(str(album_titles))
-    WebAPI.cache_result(uri, album_uris)
+    #WebAPI.cache_result(WebAPI, uri, album_uris)
     return album_uris
         
     # check for cached result
-    cached_result = self.get_cached_result(uri)
-    if cached_result is not None:
-        return cached_result
+    #cached_result = self.get_cached_result(uri)
+    #if cached_result is not None:
+    #    return cached_result
 
 """ using spotipy for cover download, not working yet
 def get_cover_url(album_uri):

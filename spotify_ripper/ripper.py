@@ -248,7 +248,7 @@ class Ripper(threading.Thread):
             if self.abort.is_set():
                 break
 
-            tracks = list(get_tracks_from_uri(uri))
+            #tracks = list(get_tracks_from_uri(uri))
 
             if args.playlist_sync and self.current_playlist:
                 self.sync = Sync(args, self)
