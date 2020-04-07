@@ -94,63 +94,74 @@ def get_track_json(track_uri):
 
 # excludes 'appears on' albums for artist
 def get_albums_with_filter(args, uri):
-	refresh_access_token()
-	#print("Args: "+str(args))
-		
-	# extract artist id from uri
-	uri_tokens = uri.split(':')
-	if len(uri_tokens) != 3:
-		return []
-	artistID = uri_tokens[2]
+    refresh_access_token()
+        
+    # extract artist id from uri
+    uri_tokens = uri.split(':')
+    if len(uri_tokens) != 3:
+        return []
+    artistID = uri_tokens[2]
 
-	album_type = args.artist_album_type[0] \
-		if args.artist_album_type is not None else ""
+    album_type = args.artist_album_type[0] \
+        if args.artist_album_type is not None else ""
 
-	market = args.artist_album_market[0] \
-		if args.artist_album_market is not None else ""
+    market = args.artist_album_market[0] \
+        if args.artist_album_market is not None else ""
 
-	offset = 0
-	album_uris = []
-	album_titles = []
-	total = None
+    offset = 0
+    album_uris = []
+    album_titles = []
+    total = None
 
-	
-	# it is possible we won't get all the albums on the first request
-	offset = 0
-	album_uris = []
-	total = None
-	while total is None or offset < total:
-		try:
-			# rate limit if not first request
-			if total is None:
-				time.sleep(1.0)
-			albums = spotInstance.artist_albums(artistID, album_type, None, 50, offset)
-			if albums is None:
-				break
+    
+    # it is possible we won't get all the albums on the first request
+    offset = 0
+    album_uris = []
+    total = None
+    while total is None or offset < total:
+        try:
+            # rate limit if not first request
+            if total is None:
+                time.sleep(1.0)
+            albums = spotInstance.artist_albums(artistID, album_type, None, 50, offset)
+            if albums is None:
+                break
 
-			# extract album URIs
-			album_uris += [album['uri'] for album in albums['items']]
-			album_titles += [album['name'] for album in albums['items']]
-			offset = len(album_uris)
-			if total is None:
-				total = albums['total']
-		except KeyError as e:
-			break
-	print(str(len(album_uris)) + " albums found")
-	print(str(album_titles))
-	#self.cache_result(uri, album_uris)
-	return album_uris	
-	
-	
-	# check for cached result
-	cached_result = self.get_cached_result(uri)
-	if cached_result is not None:
-		return cached_result
+            # extract album URIs
+            album_uris += [album['uri'] for album in albums['items']]
+            album_titles += [album['name'] for album in albums['items']]
+            offset = len(album_uris)
+            if total is None:
+                total = albums['total']
+        except KeyError as e:
+            break
+    print(str(len(album_uris)) + " albums found")
+    print(str(album_titles))
+    WebAPI.cache_result(uri, album_uris)
+    return album_uris
+        
+    # check for cached result
+    cached_result = self.get_cached_result(uri)
+    if cached_result is not None:
+        return cached_result
 
+""" using spotipy for cover download, not working yet
+def get_cover_url(album_uri):
 
-def get_cover_image(track):
-	return spotInstance.cover()
-	
+    print('Trying to collect cover from Album URI')
+        
+    # extract album id from uri
+    uri_tokens = str(album_uri).split(':')
+    if len(uri_tokens) != 3:
+        return None
+    album_id = uri_tokens[2]
+    print(str(album_id))
+    album = spotInstance.album(album_id);
+    print(str(album))
+    imgPath = album.images[0].url
+    return imgPath
+"""
+    
 class WebAPI(object):
 
     def __init__(self, args, ripper):
@@ -186,57 +197,6 @@ class WebAPI(object):
     def charts_url(self, url_path):
         return 'https://spotifycharts.com/' + url_path
 
-    # excludes 'appears on' albums for artist
-    def get_albums_with_filter(self, uri):
-        args = self.args
-
-        album_type = ('&album_type=' + args.artist_album_type[0]) \
-            if args.artist_album_type is not None else ""
-
-        market = ('&market=' + args.artist_album_market[0]) \
-            if args.artist_album_market is not None else ""
-
-        def get_albums_json(offset):
-            url = self.api_url(
-                    'artists/' + uri_tokens[2] +
-                    '/albums/?=' + album_type + market +
-                    '&limit=50&offset=' + str(offset))
-            return self.request_json(url, "albums")
-
-        # check for cached result
-        cached_result = self.get_cached_result(uri)
-        if cached_result is not None:
-            return cached_result
-
-        # extract artist id from uri
-        uri_tokens = uri.split(':')
-        if len(uri_tokens) != 3:
-            return []
-
-        # it is possible we won't get all the albums on the first request
-        offset = 0
-        album_uris = []
-        total = None
-        while total is None or offset < total:
-            try:
-                # rate limit if not first request
-                if total is None:
-                    time.sleep(1.0)
-                albums = get_albums_json(offset)
-                if albums is None:
-                    break
-
-                # extract album URIs
-                album_uris += [album['uri'] for album in albums['items']]
-                offset = len(album_uris)
-                if total is None:
-                    total = albums['total']
-            except KeyError as e:
-                break
-        print(str(len(album_uris)) + " albums found")
-        self.cache_result(uri, album_uris)
-        return album_uris
-
     def get_artists_on_album(self, uri):
         def get_album_json(album_id):
             url = self.api_url('albums/' + album_id)
@@ -260,6 +220,7 @@ class WebAPI(object):
         self.cache_result(uri, result)
         return result
 
+        
     # genre_type can be "artist" or "album"
     def get_genres(self, genre_type, track):
         def get_genre_json(spotify_id):

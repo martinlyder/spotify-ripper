@@ -6,7 +6,9 @@ from colorama import Fore, Style
 from mutagen import mp3, id3, flac, oggvorbis, oggopus, aac
 from stat import ST_SIZE
 from spotify_ripper.utils import *
+#from spotify_ripper.web import get_cover_url
 from datetime import datetime
+from pprint import pprint
 import os
 import sys
 import base64
@@ -71,6 +73,28 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
             genres_ascii = [to_ascii(genre) for genre in genres]
 
         # cover art image
+        
+        """  trying to use spotipy   
+        def get_cover_image(image_link):
+            #image_link = 'http://open.spotify.com%s' % (
+            #   image_link[len('spotify'):].replace(':', '/'))
+            #print(str(image_link))
+            cover_file = urllib.urlretrieve(image_link)[0]
+            
+            with open(cover_file, "rb") as f:
+                if f.mode == "rb":
+                    return f.read()
+                else:
+                    return None
+        
+        
+        #image_link = str(track.album.cover(2).link)
+        #pprint(track)
+        #image_link = get_cover_url(track.album.uri)
+        #image = get_cover_image(image_link)
+        """
+        
+        # cover art image
         def get_cover_image(image_link):
             image_link = 'http://open.spotify.com%s' % (
                 image_link[len('spotify'):].replace(':', '/'))
@@ -82,14 +106,10 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                 else:
                     return None
             
-        if track.album.cover(2) is not None:
-            print("Cover found!")
-            image_link = str(track.album.cover(2).link)
-            image = get_cover_image(image_link)
-        else:
-            print("Cover not found!")
-            image = None
-
+        image_link = str(track.album.cover(2).link)
+        #print(str(image_link))
+        image = get_cover_image(image_link)
+        
         def tag_to_ascii(_str, _str_ascii):
             return _str if args.ascii_path_only else _str_ascii
 

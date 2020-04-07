@@ -462,6 +462,7 @@ class Ripper(threading.Thread):
             starred.load()
             return iter(starred.tracks)
         elif link.type == spotify.LinkType.ALBUM:
+            print('Album link recognized...')
             album = link.as_album()
             album_browser = album.browse()
             print('Loading album browser...')

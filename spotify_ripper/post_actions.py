@@ -51,7 +51,7 @@ class PostActions(object):
                 rm_file(file_name)
 
     def print_summary(self):
-        if len(self.success_tracks) + len(self.failure_tracks) <= 1:
+        if len(self.success_tracks) + len(self.failure_tracks) < 1:
             return
 
         def print_with_bullet(_str):
@@ -84,6 +84,9 @@ class PostActions(object):
                   str(len(self.failure_tracks)) +
                   ")\n" + ("-" * 79) + Fore.RESET)
             log_tracks(self.failure_tracks)
+
+            print(Fore.GREEN + "\n" + str(len(self.success_tracks)) + " Tracks successfully ripped.")
+            print(Fore.RED + "\n" + str(len(self.failure_tracks)) + " Tracks failed.")
 
     def get_chart_name(self, chart):
         region_mapping = {
@@ -175,7 +178,7 @@ class PostActions(object):
                 os.path.join(_base_dir, name + '.m3u'))
             path,folder_name = os.path.split(_base_dir)
             playlist_path_fixed = to_ascii(
-		os.path.join(_base_dir, folder_name + '.m3u')) 
+        os.path.join(_base_dir, folder_name + '.m3u')) 
             print(Fore.GREEN + "Creating playlist m3u file " +
                   playlist_path_fixed + Fore.RESET)
             encoding = "ascii" if args.ascii else "utf-8"
@@ -190,7 +193,7 @@ class PostActions(object):
                     if path_exists(_file):
                         playlist.write(os.path.relpath(_file, _base_dir) +
                                        "\n")
-			
+            
 
     def create_playlist_wpl(self, tracks):
         args = self.args
