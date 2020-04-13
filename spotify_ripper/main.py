@@ -168,7 +168,7 @@ def main(prog_args=sys.argv[1:]):
     parser.add_argument(
         '--artist-album-type', nargs=1,
         help='Only load albums of specified types when passing a Spotify '
-             'artist URI [Default=album,single,ep,compilation,appears_on]')
+             'artist URI [Default=album,single,compilation,appears_on]')
     parser.add_argument(
         '--artist-album-market', nargs=1,
         help='Only load albums with the specified ISO2 country code when '
@@ -428,11 +428,11 @@ def main(prog_args=sys.argv[1:]):
 
     # format string
     if args.flat:
-        args.format = ["{artist} - {track_name}.{ext}"]
+        args.format = "{artist} - {track_name}.{ext}"
     elif args.flat_with_index:
-        args.format = ["{idx:3} - {artist} - {track_name}.{ext}"]
+        args.format = "{idx:3} - {artist} - {track_name}.{ext}"
     elif args.format is None:
-        args.format = ["{album_artist}/{album}/{artist} - {track_name}.{ext}"]
+        args.format = "{album_artist}/{album}/{artist} - {track_name}.{ext}"
 
     # print some settings
     print(Fore.GREEN + "Spotify Ripper - v" + prog_version + Fore.RESET)
@@ -535,7 +535,7 @@ def main(prog_args=sys.argv[1:]):
         if len(args.uri) == 1 and path_exists(args.uri[0]):
             args.uri = [line.strip() for line in open(args.uri[0])
                 if not line.strip().startswith("#") and len(line.strip()) > 0]
-        elif len(args.uri) == 1 and not args.uri[0].startswith("spotify:"):
+        elif len(args.uri) == 1 and not (args.uri[0].startswith("spotify:") or args.uri[0].startswith("https://open.spotify.com") or args.uri[0].startswith("https://play.spotify.com")):
             args.uri = [list(ripper.search_query(args.uri[0]))]
 
     # login and uri_parse on main thread to catch any KeyboardInterrupt

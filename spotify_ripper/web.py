@@ -108,16 +108,13 @@ def get_albums_with_filter(args, uri):
     market = args.artist_album_market[0] \
         if args.artist_album_market is not None else ""
 
+    # it is possible we won't get all the albums on the first request
     offset = 0
     album_uris = []
     album_titles = []
     total = None
 
     
-    # it is possible we won't get all the albums on the first request
-    offset = 0
-    album_uris = []
-    total = None
     while total is None or offset < total:
         try:
             # rate limit if not first request
@@ -126,7 +123,6 @@ def get_albums_with_filter(args, uri):
             albums = spotInstance.artist_albums(artistID, album_type, None, 50, offset)
             if albums is None:
                 break
-
             # extract album URIs
             album_uris += [album['uri'] for album in albums['items']]
             album_titles += [album['name'] for album in albums['items']]

@@ -24,6 +24,7 @@ import wave
 import re
 import select
 import traceback
+import json
 
 try:
     # Python 3
@@ -248,8 +249,7 @@ class Ripper(threading.Thread):
             if self.abort.is_set():
                 break
 
-            # Commented this out, Function aready available in line 227
-            #tracks = list(get_tracks_from_uri(uri))
+            tracks = list(get_tracks_from_uri(uri))
 
             if args.playlist_sync and self.current_playlist:
                 self.sync = Sync(args, self)
@@ -463,7 +463,6 @@ class Ripper(threading.Thread):
             starred.load()
             return iter(starred.tracks)
         elif link.type == spotify.LinkType.ALBUM:
-            print('Album link recognized...')
             album = link.as_album()
             album_browser = album.browse()
             print('Loading album browser...')

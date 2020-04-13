@@ -105,9 +105,9 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                     return f.read()
                 else:
                     return None
+                    
         if track.album.cover(2) is not None:    
             image_link = str(track.album.cover(2).link)
-            #print(str(image_link))
             image = get_cover_image(image_link)
         else:
             print(Fore.RED + "Cover file not found" + Fore.RESET)
