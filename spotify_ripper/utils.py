@@ -11,6 +11,7 @@ import errno
 import re
 import math
 import unicodedata
+import io
 
 
 #  since there is no class, use global var
@@ -104,9 +105,12 @@ def rm_file(file_name):
 
 
 def default_settings_dir():
-    sudo_username = os.getenv("SUDO_USER")
-    home_dir = "/home/" + sudo_username
-    return norm_path(os.path.join(home_dir, ".spotify-ripper"))
+    if is_raspberry_pi():
+        sudo_username = os.getenv("SUDO_USER")
+        home_dir = "/home/" + sudo_username
+        return norm_path(os.path.join(home_dir, ".spotify-ripper"))
+    else:
+        return norm_path(os.path.join(os.path.expanduser("~"), ".spotify-ripper"))
 
 
 def settings_dir():
@@ -506,3 +510,44 @@ def format_time(seconds, total=None, short=False):
                     seconds // limit1, unit1,
                     (seconds % limit1) // limit2, unit2)
         return u'  ~inf'
+
+def is_raspberry_pi(raise_on_errors=False):
+    """Checks if Raspberry PI.
+
+    :return:
+    """
+    try:
+        with io.open('/proc/cpuinfo', 'r') as cpuinfo:
+            found = False
+            for line in cpuinfo:
+                if line.startswith('Hardware'):
+                    found = True
+                    label, value = line.strip().split(':', 1)
+                    value = value.strip()
+                    if value not in (
+                        'BCM2708',
+                        'BCM2709',
+                        'BCM2835',
+                        'BCM2836'
+                    ):
+                        if raise_on_errors:
+                            raise ValueError(
+                                'This system does not appear to be a '
+                                'Raspberry Pi.'
+                            )
+                        else:
+                            return False
+            if not found:
+                if raise_on_errors:
+                    raise ValueError(
+                        'Unable to determine if this system is a Raspberry Pi.'
+                    )
+                else:
+                    return False
+    except IOError:
+        if raise_on_errors:
+            raise ValueError('Unable to open `/proc/cpuinfo`.')
+        else:
+            return False
+
+    return True
