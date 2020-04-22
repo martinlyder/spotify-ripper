@@ -1,5 +1,2 @@
-spotify:track:503EAR0obBJvbjiHYw3FNI 
-spotify:track:1R96rTZhBE5wYPALEDu3vE 
-spotify:track:4W3n1pkiNIRDPSMmnFcsof 
-spotify:track:25IMrAWadsRbutyn5sE57S
-spotify:track:5DaQcH3Xc1gVGb4w3RJSmR
+https://open.spotify.com/track/1mstO0Nk4V5gYlwwYdkujH
+https://open.spotify.com/track/3CgT96psOXwPssPNvYPclP

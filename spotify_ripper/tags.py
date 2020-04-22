@@ -6,7 +6,7 @@ from colorama import Fore, Style
 from mutagen import mp3, id3, flac, oggvorbis, oggopus, aac
 from stat import ST_SIZE
 from spotify_ripper.utils import *
-#from spotify_ripper.web import get_cover_url
+from spotify_ripper.web import *
 from datetime import datetime
 from pprint import pprint
 import os
@@ -47,8 +47,8 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
 
     # try to get genres from Spotify's Web API
     genres = None
-    if args.genres is not None:
-        genres = ripper.web.get_genres(args.genres[0], track)
+    if args.genres:
+        genres = get_genres(track.artists[0].link.uri)  
 
     # use mutagen to update id3v2 tags and vorbis comments
     try:

@@ -156,7 +156,31 @@ def get_cover_url(album_uri):
     imgPath = album.images[0].url
     return imgPath
 """
-    
+
+# genre_type can be "artist" or "album"
+def get_genres(uri):
+    refresh_access_token()
+    '''
+    # check for cached result
+    cached_result = self.get_cached_result(uri)
+    if cached_result is not None:
+        return cached_result
+    '''
+
+    # extract album id from uri
+    uri_tokens = uri.split(':')
+    if len(uri_tokens) != 3:
+        return None
+
+    artist = spotInstance.artist(uri_tokens[2])
+    if artist is None:
+        return None
+
+    result = artist['genres']
+    #self.cache_result(uri, result)
+    return result
+ 
+ 
 class WebAPI(object):
 
     def __init__(self, args, ripper):
@@ -217,6 +241,36 @@ class WebAPI(object):
 
         
     # genre_type can be "artist" or "album"
+    def get_genres(self, genre_type, uri):
+        def get_album_json(album_id):
+            url = self.api_url('albums/' + album_id)
+            return self.request_json(url, "album")
+
+        '''
+        # check for cached result
+        cached_result = self.get_cached_result(uri)
+        if cached_result is not None:
+            return cached_result
+        '''
+        
+        '''
+        # extract album id from uri
+        print(str(uri))
+        uri_tokens = uri.split(':')
+        if len(uri_tokens) != 3:
+            return None
+        '''
+        
+        album = get_album_json(uri_tokens[2])
+        if album is None:
+            return None
+
+        result = album['genres']
+        print(str(album['genres']))
+        self.cache_result(uri, result)
+        return result
+    
+    '''
     def get_genres(self, genre_type, track):
         def get_genre_json(spotify_id):
             url = self.api_url(genre_type + 's/' + spotify_id)
@@ -242,6 +296,7 @@ class WebAPI(object):
         result = json_obj["genres"]
         self.cache_result(uri, result)
         return result
+    '''
 
     # doesn't seem to be officially supported by Spotify
     def get_charts(self, uri):

@@ -221,9 +221,8 @@ def main(prog_args=sys.argv[1:]):
         help='Similar to --flat [-f] but includes the playlist index at '
              'the start of the song file')
     parser.add_argument(
-        '-g', '--genres', nargs=1,
-        choices=['artist', 'album'],
-        help='Attempt to retrieve genre information from Spotify\'s '
+        '-g', '--genres', action='store_true',
+        help='Attempt to retrieve genre information from Spotipy '
              'Web API [Default=skip]')
     parser.add_argument(
         '--grouping', nargs=1,

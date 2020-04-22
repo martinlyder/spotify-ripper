@@ -191,7 +191,7 @@ class Ripper(threading.Thread):
 
         # list of spotify URIs
         uris = args.uri
-
+        
         init_spotipy(self.session.user.canonical_name)
 
         def get_tracks_from_uri(uri):
@@ -199,6 +199,8 @@ class Ripper(threading.Thread):
             self.current_album = None
             self.current_chart = None
 
+            print("Getting tracks from uri...")
+            
             if isinstance(uri, list):
                 return uri
             else:
@@ -222,11 +224,13 @@ class Ripper(threading.Thread):
                 else:
                     return self.load_link(uri)
 
-        # calculate total size and time
         all_tracks = []
+        all_uris = []
+        
+        # calculate total size and time
         for uri in uris:
             tracks = list(get_tracks_from_uri(uri))
-
+            
             # TODO: remove dependency on current_album, ...
             for idx, track in enumerate(tracks):
 
@@ -236,14 +240,16 @@ class Ripper(threading.Thread):
 
                 audio_file = self.format_track_path(idx, track)
                 all_tracks.append((track, audio_file))
+                all_uris.append(track)
 
         self.progress.calc_total(all_tracks)
-
+                
         if self.progress.total_size > 0:
             print(
+                "Found " + (str(len(all_tracks))) + " Tracks.\n" + 
                 "Total Download Size: " +
                 format_size(self.progress.total_size))
-
+        
         # create track iterator
         for uri in uris:
             if self.abort.is_set():
@@ -253,7 +259,7 @@ class Ripper(threading.Thread):
 
             if args.playlist_sync and self.current_playlist:
                 self.sync = Sync(args, self)
-                print("CHECK: Sync playlist")
+                print("Synching playlist...")
                 self.sync.sync_playlist(self.current_playlist)
 
             # ripping loop
