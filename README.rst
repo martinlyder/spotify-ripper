@@ -159,8 +159,8 @@ Command Line
                             Convert all words of the file name to upper-case, lower-case, or capitalized
       --flat                Save all songs to a single directory (overrides --format option)
       --flat-with-index     Similar to --flat [-f] but includes the playlist index at the start of the song file
-      -g {artist,album}, --genres {artist,album}
-                            Attempt to retrieve genre information from Spotify's Web API [Default=skip]
+      -g , --genres 
+                            Attempt to retrieve the artist's genre information from the Spotipy API [Default=skip]
       --grouping GROUPING   Set grouping metadata tag to all songs. Can include same tags as --format.
       --id3-v23             Store ID3 tags using version v2.3 [Default=v2.4]
       -k KEY, --key KEY     Path to Spotify application key file [Default=Settings Directory]
