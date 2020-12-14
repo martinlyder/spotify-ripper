@@ -18,9 +18,9 @@ import spotipy.client
 import spotipy.oauth2 as oauth2
 
 #check instructions from https://github.com/stephanlensky/spotify-ripper
-redirect_uri = 'http://retropie'
-client_id = '66b8ec5322ef4eab85d6f8dc91666bb9' # You need to place your client_id here before install
-client_secret = '527ebda9e4a940048a22ea2846fd677f' # You need to place your client_secret here before install
+redirect_uri = ''
+client_id = '' # You need to place your client_id here before install
+client_secret = '' # You need to place your client_secret here before install
 scope = 'playlist-modify-public playlist-modify-private playlist-read-collaborative'
 
 #client_id = os.environ["SPOTIPY_CLIENT_ID"]
