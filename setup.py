@@ -7,13 +7,10 @@ import io
 
 
 def create_default_dir():
-
-    if  is_raspberry_pi():
-        sudo_username = os.getenv("SUDO_USER")
-        home_dir = "/home/" + sudo_username
-        default_dir = os.path.normpath(os.path.realpath((os.path.join(home_dir, ".spotify-ripper"))))
-    else:
-        default_dir = os.path.normpath(os.path.realpath((os.path.join(os.path.expanduser("~"), ".spotify-ripper"))))
+    default_dir = "/home/ripper/.spotify-ripper"
+    if not os.path.exists(default_dir):
+        print("Creating default settings directory: %s" % default_dir)
+        os.makedirs(default_dir.encode("utf-8"))
     
     
     if not os.path.exists(default_dir):
@@ -28,7 +25,7 @@ def _read(fn):
 
 setup(
     name='spotify-ripper',
-    version='2.9.1',
+    version='2.10.0',
     packages=find_packages(exclude=["tests"]),
     scripts=['spotify_ripper/main.py'],
     include_package_data=True,
@@ -48,10 +45,10 @@ setup(
 
     # Requirements
     install_requires=[
-        'pyspotify==2.0.5',
+        'pyspotify==2.1.3',
         'colorama==0.3.3',
         'mutagen==1.30',
-        'requests>=2.3.0',
+        'requests>=2.25.0',
         'schedule>=0.3.1',
         'spotipy>=2.4.4',
     ],
@@ -78,46 +75,5 @@ setup(
     ],
     long_description=_read('README.rst'),
 )
-
-def is_raspberry_pi(raise_on_errors=False):
-    """Checks if Raspberry PI.
-
-    :return:
-    """
-    try:
-        with io.open('/proc/cpuinfo', 'r') as cpuinfo:
-            found = False
-            for line in cpuinfo:
-                if line.startswith('Hardware'):
-                    found = True
-                    label, value = line.strip().split(':', 1)
-                    value = value.strip()
-                    if value not in (
-                        'BCM2708',
-                        'BCM2709',
-                        'BCM2835',
-                        'BCM2836'
-                    ):
-                        if raise_on_errors:
-                            raise ValueError(
-                                'This system does not appear to be a '
-                                'Raspberry Pi.'
-                            )
-                        else:
-                            return False
-            if not found:
-                if raise_on_errors:
-                    raise ValueError(
-                        'Unable to determine if this system is a Raspberry Pi.'
-                    )
-                else:
-                    return False
-    except IOError:
-        if raise_on_errors:
-            raise ValueError('Unable to open `/proc/cpuinfo`.')
-        else:
-            return False
-
-    return True
 
 create_default_dir()
